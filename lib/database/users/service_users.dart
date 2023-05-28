@@ -1,4 +1,5 @@
 //เชื่อต่อ http สำหรับลิ้ง API
+import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 
@@ -32,9 +33,16 @@ Future<List<User>> getUser() async {
 }
 
 
-Future<List<User>> updateUser() async {
-  var url = Uri.parse(Shared.baseUrl+"/api/users");
-  var response = await http.put(url);
+Future<List<User>> updateUser(String username) async {
+  var url = Uri.parse(Shared.baseUrl+"/api/users/1");
+  var response = await http.put(url,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+    }),
+  );
 
   log('${response.statusCode}');
   log('${response.body}');
@@ -48,3 +56,4 @@ Future<List<User>> updateUser() async {
   }
 
 }
+

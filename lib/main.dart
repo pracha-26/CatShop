@@ -12,9 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "My App",
       home: MyHomePage(),
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
-      ),
+      theme: ThemeData(primarySwatch: Colors.red),
     );
   }
 }
