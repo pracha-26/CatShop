@@ -23,8 +23,7 @@ Future<List<User>> getUser() async {
   log('${response.body}');
 
   if (response.statusCode == 200) {
-    var jsonString = response.body;
-    List<User> user = userFromJson(jsonString);
+    List<User> user = userFromJson(response.body);
     return user;
   } else {
     throw Exception('Failed to update album.');
@@ -32,7 +31,7 @@ Future<List<User>> getUser() async {
 
 }
 
-
+//--------------- แก้ไขข้อมูล updateUser ---------------//
 Future<List<User>> updateUser(String username) async {
   var url = Uri.parse(Shared.baseUrl+"/api/users/1");
   var response = await http.put(url,
@@ -48,8 +47,7 @@ Future<List<User>> updateUser(String username) async {
   log('${response.body}');
 
   if (response.statusCode == 200) {
-    var jsonString = response.body;
-    List<User> user = userFromJson(jsonString);
+    List<User> user = userFromJson(response.body);
     return user;
   } else {
     throw Exception('Failed to update album.');
