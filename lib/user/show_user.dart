@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
+
+// สำหรับ Naviagtor ไปยังหน้าต่างๆ
 import 'package:frontcatshop/user/edit_user.dart';
 
 class showUser extends StatefulWidget {
@@ -13,7 +15,8 @@ class showUser extends StatefulWidget {
 }
 
 class _showUserState extends State<showUser> {
-  late Future<List<User>> futureUsers;
+  //ตัวแปรที่ใช้เก็บค่าของ Future ที่จะเรียกใช้งานในการดึงข้อมูล
+  late Future<List<Users>> futureUsers;
 
   @override
   //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
@@ -42,7 +45,7 @@ class _showUserState extends State<showUser> {
         ),
 
         body: Center(
-          child: FutureBuilder<List<User>>(
+          child: FutureBuilder<List<Users>>(
             future: futureUsers,
             builder: (context, snapshot) {
               if (snapshot.hasData) {

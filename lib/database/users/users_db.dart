@@ -1,12 +1,16 @@
 //เอาค่าที่ได้จากการดึงข้อมูลผ่าน API ไปใส่ในเว็บ quicktype แล้ว genalate มาเป็นไฟล์ Dart
 
+// To parse this JSON data, do
+//
+//     final users = usersFromJson(jsonString);
+
 import 'dart:convert';
 
-List<User> userFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
+List<Users> usersFromJson(String str) => List<Users>.from(json.decode(str).map((x) => Users.fromJson(x)));
 
-String userToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String usersToJson(List<Users> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class User {
+class Users {
     int id;
     String username;
     String email;
@@ -16,7 +20,7 @@ class User {
     DateTime createdAt;
     DateTime updatedAt;
 
-    User({
+    Users({
         required this.id,
         required this.username,
         required this.email,
@@ -27,7 +31,7 @@ class User {
         required this.updatedAt,
     });
 
-    factory User.fromJson(Map<String, dynamic> json) => User(
+    factory Users.fromJson(Map<String, dynamic> json) => Users(
         id: json["id"],
         username: json["username"],
         email: json["email"],
@@ -49,3 +53,5 @@ class User {
         "updatedAt": updatedAt.toIso8601String(),
     };
 }
+
+

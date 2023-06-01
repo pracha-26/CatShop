@@ -5,17 +5,19 @@ import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
 
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
-import 'package:frontcatshop/user/show_user.dart';
+import 'package:frontcatshop/login/login.dart';
 
-class editUser extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _editUserState createState() => _editUserState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _editUserState extends State<editUser> {
+class _RegisterState extends State<Register> {
 
   //TextEditใช้ในการควบคุมเนื้อหาในช่องข้อมูล
-  final TextEditingController _usernameController = TextEditingController(); 
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   //ตัวแปรที่ใช้เก็บค่าของ Future ที่จะเรียกใช้งานในการดึงข้อมูล
   late Future<List<Users>> futureUsers;
 
@@ -30,7 +32,7 @@ class _editUserState extends State<editUser> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Update Data Example',
+      title: 'Regiter CatShop',
       theme: ThemeData(primarySwatch: Colors.red),
       home: Scaffold(
         appBar: AppBar(
@@ -39,11 +41,11 @@ class _editUserState extends State<editUser> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => showUser()),
+                MaterialPageRoute(builder: (context) => Login()),
               );
             },
           ),
-          title: const Text('Update Data Example'),
+          title: const Text('Regiter CatShop'),
         ),
 
 
@@ -58,21 +60,37 @@ class _editUserState extends State<editUser> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(snapshot.data![0].username),
+                      // Text(snapshot.data![0].username),
                       TextField(
                         controller: _usernameController,
                         decoration: const InputDecoration(
-                          hintText: 'Enter Title',
+                          hintText: 'Enter user name',
                         ),
                       ),
+                      TextField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter email',
+                        ),
+                      ),
+                      TextField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter password',
+                        ),
+                      ),
+
+                      
                       ElevatedButton(
                         onPressed: () {
+                          print("$_usernameController + $_emailController + $_passwordController");
                           setState(() {
-                            futureUsers = updateUser(_usernameController.text);
+                            futureUsers = createUser(_usernameController.text,_emailController.text,_passwordController.text);
                           });
                         },
-                        child: const Text('Update Data'),
+                        child: const Text('Submit'),
                       ),
+
                     ],
                   );
                 } else if (snapshot.hasError) {

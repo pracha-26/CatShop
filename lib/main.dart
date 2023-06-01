@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+
+// สำหรับ Naviagtor ไปยังหน้าต่างๆ
+import 'package:frontcatshop/login/login.dart';
+import 'package:frontcatshop/massage/chatList.dart';
+import 'package:frontcatshop/trolley/trolley.dart';
 import 'package:frontcatshop/user/show_user.dart';
 
 
@@ -35,32 +40,16 @@ class _MyHomePageState extends State<MyHomePage> {
           IconButton(
             icon: Icon(Icons.login),
             onPressed: () {
-              // Navigator.push(
-              //   context,MaterialPageRoute(builder: (context) => Login()),
-              // );
+              Navigator.push(
+                context,MaterialPageRoute(builder: (context) => Login()),
+              );
             },
           ),
         ],
       ),
 
-      body: Column(
-        children: [
-          // แถบไอคอนเมนู
-          Container(
-            height: 56.0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
 
-              ],
-            ),
-          ),
-
-        ],
-      ),
-
-
-
+//------------------------ NavBar ด้านล่าง ------------------------//
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Container(
@@ -79,19 +68,18 @@ class _MyHomePageState extends State<MyHomePage> {
               IconButton(
                 icon: Icon(Icons.message),
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,MaterialPageRoute(builder: (context) => ChatListPage()),
-                  // );
-
+                  Navigator.push(
+                    context,MaterialPageRoute(builder: (context) => ChatList()),
+                  );
                 },
               ),
               SizedBox(width: 56.0),
               IconButton(
                 icon: Icon(Icons.shopping_cart),
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,MaterialPageRoute(builder: (context) => Trolley()),
-                  // );
+                  Navigator.push(
+                    context,MaterialPageRoute(builder: (context) => Trolley()),
+                  );
                 },
               ),
               IconButton(
