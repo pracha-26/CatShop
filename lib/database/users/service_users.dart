@@ -1,34 +1,35 @@
 //เชื่อต่อ http สำหรับลิ้ง API
 import 'dart:convert';
 import 'dart:developer';
-import 'package:frontcatshop/database/users/users_db.dart';
+
 import 'package:http/http.dart' as http;
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
+import 'package:frontcatshop/database/users/users_db.dart';
 
 //http ลิ้ง API
 import 'package:frontcatshop/shared/service.dart';
 
-Map<String, String> headers = {
-  'Content-Type': 'application/json; charset=UTF-8',
-  'Accept': 'application/json',
-};
-
 //--------------- ดึงข้อมูล getUser ---------------//
-Future<List<Users>> getUser() async {
-  var url = Uri.parse(Shared.baseUrl+"/api/users");
-  var response = await http.get(url);
+Future<List<Users>?> getUser() async {
+  try {
+    var url = Uri.parse(Shared.baseUrl+"/api/users");
+    var response = await http.get(url,
+      headers: {"Authorization": "Bearer ${Shared.accesToken}"});
 
-  log('${response.statusCode}');
-  log('${response.body}');
+    log('${response.statusCode}');
+    log('${response.body}');
 
-  if (response.statusCode == 200) {
-    List<Users> user = usersFromJson(response.body);
-    return user;
-  } else {
-    throw Exception('Failed to update album.');
+    if (response.statusCode == 200) {
+      List<Users> _model = usersFromJson(response.body);
+      return _model;
+    } else {
+      String error = jsonDecode(response.body)['error']['message'];
+      throw Exception(error);
+    }
+  } catch (e) {
+    log(e.toString());
   }
-
 }
 
 //--------------- แก้ไขข้อมูล updateUser ---------------//

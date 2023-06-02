@@ -1,108 +1,36 @@
 import 'package:flutter/material.dart';
-
-// สำหรับ Naviagtor ไปยังหน้าต่างๆ
-import 'package:frontcatshop/login/login.dart';
-import 'package:frontcatshop/massage/chatList.dart';
-import 'package:frontcatshop/trolley/trolley.dart';
-import 'package:frontcatshop/user/show_user.dart';
-
+import 'package:frontcatshop/strapi/strapi_dashboard.dart';
+import 'package:frontcatshop/strapi/strapi_login.dart';
+import 'package:frontcatshop/strapi/strapi_signup.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const Home());
 }
 
-class MyApp extends StatelessWidget {
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "My App",
-      home: MyHomePage(),
-      theme: ThemeData(primarySwatch: Colors.red),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Cat Shop"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.login),
-            onPressed: () {
-              Navigator.push(
-                context,MaterialPageRoute(builder: (context) => Login()),
-              );
-            },
-          ),
-        ],
-      ),
-
-
-//------------------------ NavBar ด้านล่าง ------------------------//
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        child: Container(
-          height: 56.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              IconButton(
-                icon: Icon(Icons.search_sharp),
-                onPressed: () {
-                  // Navigator.push(
-                  //   context,MaterialPageRoute(builder: (context) => ProductSearchPage()),
-                  // );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.message),
-                onPressed: () {
-                  Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => ChatList()),
-                  );
-                },
-              ),
-              SizedBox(width: 56.0),
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                  Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => Trolley()),
-                  );
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => showUser())
-                  );
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          //Navigator.popUntil(context, (route) => route.isFirst);
-        },
-        child: Icon(Icons.home),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
-    );
+   return MaterialApp(
+    title: "Strapi App",
+    home: const Login(),
+    routes: {
+     Dashboard.namedRoute: (ctx) => const Dashboard(),
+     Login.namedRoute: (ctx) => const Login(),
+     Signup.namedRoute: (ctx) => const Signup()
+    },
+    onGenerateRoute: (settings) {
+     return MaterialPageRoute(builder: (context) => const Dashboard());
+    },
+    onUnknownRoute: (settings) {
+     return MaterialPageRoute(builder: (context) => const Dashboard());
+    },
+   );
   }
 }
