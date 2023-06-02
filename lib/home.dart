@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
 import 'package:frontcatshop/massage/chatList.dart';
 import 'package:frontcatshop/search/searchData.dart';
+import 'package:frontcatshop/shared/service.dart';
 import 'package:frontcatshop/trolley/trolley.dart';
 
 class Home extends StatefulWidget {
@@ -32,12 +33,27 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        body: const Center(
-          child: Text(
-            'Welcome',
-            style: TextStyle(fontSize: 16),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'ID: ${Local.id}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Username: ${Local.username}',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Email: ${Local.email}',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
           ),
         ),
+
+
 
 
         bottomNavigationBar: BottomAppBar(

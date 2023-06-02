@@ -6,6 +6,7 @@ import 'package:frontcatshop/login/signup.dart';
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
+import 'package:frontcatshop/shared/service.dart';
 
 class Login extends StatefulWidget {
   static const namedRoute = "login-screen";
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
       if (users.isNotEmpty) {
         for (var i = 0; i < users.length; i++) {
           if (users[i].email == _email.text) {
+          Local.setLocal(users[i].id, users[i].username, users[i].email);
             loggedInUser = users[i];
             break;
           }
