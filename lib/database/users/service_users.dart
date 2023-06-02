@@ -18,8 +18,8 @@ class ApiUsers {
       var response = await http.get(url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"});
 
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
         List<Users> _model = usersFromJson(response.body);
@@ -50,33 +50,8 @@ class ApiUsers {
         }),
       );
       // log('$username + $email + $password');
-      // if (response.statusCode == 200) {
-      //   List<Users> _model = usersFromJson(response.body);
-      //   return _model;
-      // } else {
-      //   String error = jsonDecode(response.body)['error']['message'];
-      //   throw Exception(error);
-      // }
-    } catch (e) {
-      log(e.toString());
-    }
-  }
-
-  //--------------- แก้ไขข้อมูล updateUser ---------------//
-  Future<List<Users>?> updateUsers(String username) async {
-    try {
-      var url = Uri.parse(Shared.baseUrl+"/api/users/1");
-      var response = await http.put(url,
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            "Authorization": "Bearer ${Shared.accesToken}",
-          },
-        body: jsonEncode(<String, String>{
-          'username': username,
-        }),
-      );
       if (response.statusCode == 200) {
-        List<Users> _model = usersFromJson(response.body);
+        Users _model = Users.fromJson(jsonDecode(response.body));
         return _model;
       } else {
         String error = jsonDecode(response.body)['error']['message'];
@@ -86,6 +61,34 @@ class ApiUsers {
       log(e.toString());
     }
   }
+
+
+  //--------------- แก้ไขข้อมูล editUsers ---------------//
+Future<Users?> editUsers(String username, String email) async {
+  try {
+    var url = Uri.parse(Shared.baseUrl + "/api/users/${Local.id}");
+    var response = await http.put(url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer ${Shared.accesToken}",
+        },
+        body: jsonEncode(<String, String>{
+          'username': username,
+          'email': email,
+        }),
+    );
+    if (response.statusCode == 200) {
+      Users _model = Users.fromJson(jsonDecode(response.body));
+      return _model;
+    } else {
+      String error = jsonDecode(response.body)['error']['message'];
+      throw Exception(error);
+    }
+  } catch (e) {
+    log(e.toString());
+  }
+}
+
 
 
   //--------------- ลบข้อมูล deleteUser ---------------//

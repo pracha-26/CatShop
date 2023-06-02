@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
 import 'package:frontcatshop/massage/chatList.dart';
+import 'package:frontcatshop/profile/profile.dart';
 import 'package:frontcatshop/search/searchData.dart';
 import 'package:frontcatshop/shared/service.dart';
 import 'package:frontcatshop/trolley/trolley.dart';
@@ -55,7 +56,7 @@ class _HomeState extends State<Home> {
 
 
 
-
+//Bar แสดงเมนูด้านล่าง
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           child: Container(
@@ -91,9 +92,9 @@ class _HomeState extends State<Home> {
                 IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,MaterialPageRoute(builder: (context) => showUser())
-                    // );
+                    Navigator.push(
+                      context,MaterialPageRoute(builder: (context) => ProfilePage())
+                    );
                   },
                 ),
               ],
