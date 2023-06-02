@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+//ตรวจสอบ Text fields ที่กรอกเข้ามา
 import 'package:form_field_validator/form_field_validator.dart';
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
@@ -18,31 +19,28 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-
   //TextEditใช้ในการควบคุมเนื้อหาในช่องข้อมูล
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController _username = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final  _username = TextEditingController();
+  final  _email = TextEditingController();
+  final  _password = TextEditingController();
   String _error = "";
 
   @override
-  void _SignupForm() async {
-          try {
-    if (_formKey.currentState!.validate()) {
-      print('username: $_username.text');
-      print('Email: $_email.text');
-      print('Password: $_password.text');
-
-
-        Users? createduser =
-          await ApiUsers().addUsers(_username.text, _email.text, _password.text);
-        if (createduser != null) {
-        // navigate to the dashboard.
-        Navigator.pushNamed(context, Dashboard.namedRoute);
-        }
-      } 
-
+  void _Signup() async {
+    // print('username: $_username');
+    // print('Email: $_email');
+    // print('Password: $_password');
+    try {
+      // add ข้อมูลลง database
+      Users? createduser =
+        await ApiUsers().addUsers(_username.text, _email.text, _password.text);
+          _username.clear();
+          _email.clear();
+          _password.clear();
+      if (createduser != null) {
+      // navigate to the dashboard.
+      Navigator.pushNamed(context, Dashboard.namedRoute);
+      }
     }on Exception catch (e) {
         setState(() {
         _error = e.toString().substring(11);
@@ -73,7 +71,6 @@ class _SignupState extends State<Signup> {
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
-          key: _formKey,
           child: Column(
             children: [
               TextFormField(
@@ -109,7 +106,7 @@ class _SignupState extends State<Signup> {
               SizedBox(height: 16.0),
 
               ElevatedButton(
-                onPressed: _SignupForm,
+                onPressed: _Signup,
                 child: Text('Create Account'),
               ),
 
