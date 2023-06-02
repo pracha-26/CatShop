@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frontcatshop/login/register.dart';
 
+//ดึง database ตัวที่เราจะใช้ _db.dart
+import 'package:frontcatshop/database/users/service_users.dart';
+import 'package:frontcatshop/database/users/users_db.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -8,27 +11,46 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+    //ตัวแปรที่ใช้เก็บค่าของ Future ที่จะเรียกใช้งานในการดึงข้อมูล
+  late Future<List<Users>> futureUsers;
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
-  void dispose() {
+    //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
+  void initState() {
+    super.initState();
+    futureUsers = getUser();
+  }
 
+  void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  void _submitForm() {
+  Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
       // Form is valid, perform registration logic here
       String email = _emailController.text;
       String password = _passwordController.text;
 
+      List<Users> users = await futureUsers; // รอการเรียกใช้งาน Future และรับค่าผลลัพธ์
+      for (Users user in users) {
+      // ดำเนินการกับข้อมูลของแต่ละ user ที่ได้จาก Future
+      print('User ID: ${user.id}');
+      print('Username: ${user.username}');
+      print('Email: ${user.email}');
+}
       // Process registration data...
-      print('Email: $email');
-      print('Password: $password');
+      // print('Email: $email');
+      // print('Password: $password');
+
+      if(email == email){
+        if(password == password){}
+      }
 
       // Clear form fields
       _emailController.clear();

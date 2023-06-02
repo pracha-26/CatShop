@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/users/service_users.dart';
@@ -15,6 +16,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   //TextEditใช้ในการควบคุมเนื้อหาในช่องข้อมูล
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -25,9 +27,34 @@ class _RegisterState extends State<Register> {
   //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
   void initState() {
     super.initState();
-    futureUsers = getUser();
+    // futureUsers = getUser();
   }
 
+  void _registerForm() {
+    if (_formKey.currentState!.validate()) {
+      // Form is valid, perform registration logic here
+      // ignore: unused_local_variable
+      String username = _usernameController.text;
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+      // Process registration data...
+      print('username: $username');
+      print('Email: $email');
+      print('Password: $password');
+
+
+      // setState(() {
+      //   futureUsers = createUser(username,email,password);
+        
+      //   // Clear form fields
+      //   _usernameController.clear();
+      //   _emailController.clear();
+      //   _passwordController.clear();
+      // });
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,59 +76,51 @@ class _RegisterState extends State<Register> {
         ),
 
 
-        body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder<List<Users>>(
-            future: futureUsers,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if (snapshot.hasData) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      // Text(snapshot.data![0].username),
-                      TextField(
-                        controller: _usernameController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter user name',
-                        ),
-                      ),
-                      TextField(
-                        controller: _emailController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter email',
-                        ),
-                      ),
-                      TextField(
-                        controller: _passwordController,
-                        decoration: const InputDecoration(
-                          hintText: 'Enter password',
-                        ),
-                      ),
-
-                      
-                      ElevatedButton(
-                        onPressed: () {
-                          print("$_usernameController + $_emailController + $_passwordController");
-                          setState(() {
-                            futureUsers = createUser(_usernameController.text,_emailController.text,_passwordController.text);
-                          });
-                        },
-                        child: const Text('Submit'),
-                      ),
-
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-              }
-
-              return const CircularProgressIndicator();
-            },
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  labelText: 'user name',
+                ),
+                validator: MultiValidator([     //ตรวจสอบ Text fields ที่กรอกเข้ามา
+                  RequiredValidator(errorText: "Please enter your name"),
+                ]),
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Please enter your Email"),
+                  EmailValidator(errorText: "Please enter your new Email")
+                ]),
+              ),
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                ),
+                obscureText: true,
+                validator: MultiValidator([
+                  RequiredValidator(errorText: "Please enter your Email"),
+                ]),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _registerForm,
+                child: Text('Regiter'),
+              ),
+            ],
           ),
         ),
+      ),
+
       ),
     );
   }

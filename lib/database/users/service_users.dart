@@ -81,3 +81,27 @@ Future<List<Users>> createUser(String username, String email, String password) a
   }
 
 }
+
+//--------------- ลบข้อมูล deleteUser ---------------//
+Future<List<Users>> deleteUser(String id) async {
+  var url = Uri.parse(Shared.baseUrl+"/api/users/id");
+  var response = await http.delete(url,
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': id,
+    }),
+  );
+
+  log('${response.statusCode}');
+  log('${response.body}');
+
+  if (response.statusCode == 200) {
+    List<Users> user = usersFromJson(response.body);
+    return user;
+  } else {
+    throw Exception('Failed to update album.');
+  }
+
+}
