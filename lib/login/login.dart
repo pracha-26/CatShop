@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontcatshop/login/register.dart';
+import 'package:frontcatshop/login/signup.dart';
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
+import 'package:frontcatshop/strapi/strapi_dashboard.dart';
 
 class Login extends StatefulWidget {
+  static const namedRoute = "login-screen";
+  const Login({Key? key}) : super(key: key);
+
   @override
   _LoginState createState() => _LoginState();
 }
@@ -15,46 +19,35 @@ class _LoginState extends State<Login> {
   late Future<List<Users>> futureUsers;
 
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  String _error = "";
 
   @override
-    //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
-  void initState() {
-    super.initState();
-    futureUsers = getUser();
-  }
-
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      // Form is valid, perform registration logic here
-      String email = _emailController.text;
-      String password = _passwordController.text;
-
-      List<Users> users = await futureUsers; // รอการเรียกใช้งาน Future และรับค่าผลลัพธ์
-      for (Users user in users) {
-      // ดำเนินการกับข้อมูลของแต่ละ user ที่ได้จาก Future
-      print('User ID: ${user.id}');
-      print('Username: ${user.username}');
-      print('Email: ${user.email}');
-}
-      // Process registration data...
-      // print('Email: $email');
-      // print('Password: $password');
-
-      if(email == email){
-        if(password == password){}
+  void _login() async {
+    try {
+      List<Users> users = (await ApiUsers().getUsers())!;
+      late Users? loggedInUser;
+      if (users.isNotEmpty) {
+        for (var i = 0; i < users.length; i++) {
+          if (users[i].email == _email) {
+            loggedInUser = users[i];
+            break;
+          }
+        }
       }
-
-      // Clear form fields
-      _emailController.clear();
-      _passwordController.clear();
+      if (loggedInUser == null) {
+        setState(() {
+          _error = "Your account does not exist.";
+        });
+      } else {
+        // navigate to the dashboard screen.
+        Navigator.pushNamed(context, Dashboard.namedRoute);
+      }
+    } on Exception catch (e) {
+      setState(() {
+        _error = e.toString().substring(11);
+      });
     }
   }
 
@@ -77,7 +70,7 @@ class _LoginState extends State<Login> {
           child: Column(
             children: [
               TextFormField(
-                controller: _emailController,
+                controller: _email,
                 decoration: InputDecoration(
                   labelText: 'Email',
                 ),
@@ -90,7 +83,7 @@ class _LoginState extends State<Login> {
                 },
               ),
               TextFormField(
-                controller: _passwordController,
+                controller: _password,
                 decoration: InputDecoration(
                   labelText: 'Password',
                 ),
@@ -103,19 +96,27 @@ class _LoginState extends State<Login> {
                   return null;
                 },
               ),
+
               SizedBox(height: 16.0),
               ElevatedButton(
-                onPressed: _submitForm,
+                onPressed: _login,
                 child: Text('Log in'),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => Register()),
-                  );
-                },
-                child: Text('Regiter'),
+
+            TextButton(
+              onPressed: () {
+                // navigate to the signup screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => Signup()),
+                );
+              },
+              child: const Text(
+                'New user? Create Account',
+                style: TextStyle(fontSize: 14),
               ),
+            ),
+
             ],
           ),
         ),

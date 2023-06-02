@@ -10,99 +10,107 @@ import 'package:frontcatshop/database/users/users_db.dart';
 //http ลิ้ง API
 import 'package:frontcatshop/shared/service.dart';
 
+class ApiUsers {
 //--------------- ดึงข้อมูล getUser ---------------//
-Future<List<Users>?> getUser() async {
-  try {
-    var url = Uri.parse(Shared.baseUrl+"/api/users");
-    var response = await http.get(url,
-      headers: {"Authorization": "Bearer ${Shared.accesToken}"});
+  Future<List<Users>?> getUsers() async {
+    try {
+      var url = Uri.parse(Shared.baseUrl+"/api/users");
+      var response = await http.get(url,
+        headers: {"Authorization": "Bearer ${Shared.accesToken}"});
 
-    log('${response.statusCode}');
-    log('${response.body}');
+      log('${response.statusCode}');
+      log('${response.body}');
 
-    if (response.statusCode == 200) {
-      List<Users> _model = usersFromJson(response.body);
-      return _model;
-    } else {
-      String error = jsonDecode(response.body)['error']['message'];
-      throw Exception(error);
+      if (response.statusCode == 200) {
+        List<Users> _model = usersFromJson(response.body);
+        return _model;
+      } else {
+        String error = jsonDecode(response.body)['error']['message'];
+        throw Exception(error);
+      }
+    } catch (e) {
+      log(e.toString());
     }
-  } catch (e) {
-    log(e.toString());
-  }
-}
-
-//--------------- แก้ไขข้อมูล updateUser ---------------//
-Future<List<Users>> updateUser(String username) async {
-  var url = Uri.parse(Shared.baseUrl+"/api/users/1");
-  var response = await http.put(url,
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'username': username,
-    }),
-  );
-
-  log('${response.statusCode}');
-  log('${response.body}');
-
-  if (response.statusCode == 200) {
-    List<Users> user = usersFromJson(response.body);
-    return user;
-  } else {
-    throw Exception('Failed to update album.');
   }
 
-}
 
-//--------------- สร้างข้อมูล updateUser ---------------//
-Future<List<Users>> createUser(String username, String email, String password) async {
-  var url = Uri.parse(Shared.baseUrl+"/api/auth/local/register");
-  var response = await http.post(url,
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      "username": username,
-      "email": email,
-      "password": password
-    }),
-  );
-  log('$username + $email + $password');
-
-  log('${response.statusCode}');
-  log('${response.body}');
-
-  if (response.statusCode == 200) {
-    List<Users> user = usersFromJson(response.body);
-    return user;
-  } else {
-    throw Exception('Failed to update album.');
+//--------------- สร้างข้อมูล createUses ---------------//
+  Future<Users?> addUsers(String username, String email, String password) async {
+    try {
+      var url = Uri.parse(Shared.baseUrl+"/api/auth/local/register");
+      var response = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer ${Shared.accesToken}",
+        },
+        body: jsonEncode(<String, String>{
+          "username": username,
+          "email": email,
+          "password": password
+        }),
+      );
+      // log('$username + $email + $password');
+      // if (response.statusCode == 200) {
+      //   List<Users> _model = usersFromJson(response.body);
+      //   return _model;
+      // } else {
+      //   String error = jsonDecode(response.body)['error']['message'];
+      //   throw Exception(error);
+      // }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
-}
+  //--------------- แก้ไขข้อมูล updateUser ---------------//
+  Future<List<Users>?> updateUsers(String username) async {
+    try {
+      var url = Uri.parse(Shared.baseUrl+"/api/users/1");
+      var response = await http.put(url,
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            "Authorization": "Bearer ${Shared.accesToken}",
+          },
+        body: jsonEncode(<String, String>{
+          'username': username,
+        }),
+      );
+      if (response.statusCode == 200) {
+        List<Users> _model = usersFromJson(response.body);
+        return _model;
+      } else {
+        String error = jsonDecode(response.body)['error']['message'];
+        throw Exception(error);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
-//--------------- ลบข้อมูล deleteUser ---------------//
-Future<List<Users>> deleteUser(String id) async {
-  var url = Uri.parse(Shared.baseUrl+"/api/users/id");
-  var response = await http.delete(url,
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'username': id,
-    }),
-  );
 
-  log('${response.statusCode}');
-  log('${response.body}');
-
-  if (response.statusCode == 200) {
-    List<Users> user = usersFromJson(response.body);
-    return user;
-  } else {
-    throw Exception('Failed to update album.');
+  //--------------- ลบข้อมูล deleteUser ---------------//
+  Future<List<Users>?> deleteUsers(String id) async {
+    try {
+      var url = Uri.parse(Shared.baseUrl+"/api/users/id");
+      var response = await http.delete(url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          "Authorization": "Bearer ${Shared.accesToken}",
+        },
+        body: jsonEncode(<String, String>{
+          'username': id,
+        }),
+      );
+      if (response.statusCode == 200) {
+        List<Users> _model = usersFromJson(response.body);
+        return _model;
+      } else {
+        String error = jsonDecode(response.body)['error']['message'];
+        throw Exception(error);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
   }
 
 }

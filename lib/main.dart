@@ -17,20 +17,20 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-   return MaterialApp(
-    title: "Strapi App",
-    home: const Login(),
-    routes: {
-     Dashboard.namedRoute: (ctx) => const Dashboard(),
-     Login.namedRoute: (ctx) => const Login(),
-     Signup.namedRoute: (ctx) => const Signup()
-    },
-    onGenerateRoute: (settings) {
-     return MaterialPageRoute(builder: (context) => const Dashboard());
-    },
-    onUnknownRoute: (settings) {
-     return MaterialPageRoute(builder: (context) => const Dashboard());
-    },
-   );
+    return MaterialApp(
+      title: "Strapi App",
+      home: const Login(),
+      routes: {
+        Dashboard.namedRoute: (ctx) => const Dashboard(),
+        Login.namedRoute: (ctx) => const Login(),
+        Signup.namedRoute: (ctx) => const Signup()
+      },
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => const Dashboard());
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => const Dashboard());
+      },
+    );
   }
 }

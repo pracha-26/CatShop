@@ -56,13 +56,8 @@ class Signup extends StatefulWidget {
         if (_error.isNotEmpty)
           Column(
           children: [
-            Text(
-            _error,
-            style: const TextStyle(color: Colors.red),
-            ),
-            const SizedBox(
-            height: 10,
-            )
+            Text(_error,style: const TextStyle(color: Colors.red),),
+            const SizedBox(height: 10,)
           ],
           ),
         Padding(
@@ -140,6 +135,7 @@ class Signup extends StatefulWidget {
           style: TextStyle(fontSize: 16),
           ),
         ),
+        
         ],
       ),
       )

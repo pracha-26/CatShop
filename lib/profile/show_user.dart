@@ -5,7 +5,7 @@ import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
 
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
-import 'package:frontcatshop/user/edit_user.dart';
+import 'package:frontcatshop/profile/edit_user.dart';
 
 class showUser extends StatefulWidget {
   const showUser({super.key});
@@ -22,7 +22,7 @@ class _showUserState extends State<showUser> {
   //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
   void initState() {
     super.initState();
-    futureUsers = getUser();
+    futureUsers = ApiUsers().getUser();
   }
 
   Widget build(BuildContext context) {

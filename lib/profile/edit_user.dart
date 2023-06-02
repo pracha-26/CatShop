@@ -5,7 +5,7 @@ import 'package:frontcatshop/database/users/service_users.dart';
 import 'package:frontcatshop/database/users/users_db.dart';
 
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
-import 'package:frontcatshop/user/show_user.dart';
+import 'package:frontcatshop/profile/show_user.dart';
 
 class editUser extends StatefulWidget {
   @override

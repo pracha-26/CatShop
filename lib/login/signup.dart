@@ -7,53 +7,47 @@ import 'package:frontcatshop/database/users/users_db.dart';
 
 // สำหรับ Naviagtor ไปยังหน้าต่างๆ
 import 'package:frontcatshop/login/login.dart';
+import 'package:frontcatshop/strapi/strapi_dashboard.dart';
 
-class Register extends StatefulWidget {
+class Signup extends StatefulWidget {
+  static const namedRoute = "signup-screen";
+  const Signup({Key? key}) : super(key: key);
+
   @override
-  _RegisterState createState() => _RegisterState();
+  _SignupState createState() => _SignupState();
 }
 
-class _RegisterState extends State<Register> {
+class _SignupState extends State<Signup> {
 
   //TextEditใช้ในการควบคุมเนื้อหาในช่องข้อมูล
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  //ตัวแปรที่ใช้เก็บค่าของ Future ที่จะเรียกใช้งานในการดึงข้อมูล
-  late Future<List<Users>> futureUsers;
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  String _error = "";
 
   @override
-  //กำหนดสถานะเริ่มต้นของ State ใน StatefulWidget เตรียมข้อมูล API ที่จำเป็นในการใช้งานใน Widget
-  void initState() {
-    super.initState();
-    // futureUsers = getUser();
-  }
-
-  void _registerForm() {
+  void _SignupForm() async {
+          try {
     if (_formKey.currentState!.validate()) {
-      // Form is valid, perform registration logic here
-      // ignore: unused_local_variable
-      String username = _usernameController.text;
-      String email = _emailController.text;
-      String password = _passwordController.text;
-
-      // Process registration data...
-      print('username: $username');
-      print('Email: $email');
-      print('Password: $password');
+      print('username: $_username.text');
+      print('Email: $_email.text');
+      print('Password: $_password.text');
 
 
-      // setState(() {
-      //   futureUsers = createUser(username,email,password);
-        
-      //   // Clear form fields
-      //   _usernameController.clear();
-      //   _emailController.clear();
-      //   _passwordController.clear();
-      // });
-    }
+        Users? createduser =
+          await ApiUsers().addUsers(_username.text, _email.text, _password.text);
+        if (createduser != null) {
+        // navigate to the dashboard.
+        Navigator.pushNamed(context, Dashboard.namedRoute);
+        }
+      } 
 
+    }on Exception catch (e) {
+        setState(() {
+        _error = e.toString().substring(11);
+        });
+      }
   }
 
   @override
@@ -83,7 +77,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             children: [
               TextFormField(
-                controller: _usernameController,
+                controller: _username,
                 decoration: InputDecoration(
                   labelText: 'user name',
                 ),
@@ -91,8 +85,9 @@ class _RegisterState extends State<Register> {
                   RequiredValidator(errorText: "Please enter your name"),
                 ]),
               ),
+
               TextFormField(
-                controller: _emailController,
+                controller: _email,
                 decoration: InputDecoration(
                   labelText: 'Email',
                 ),
@@ -102,7 +97,7 @@ class _RegisterState extends State<Register> {
                 ]),
               ),
               TextFormField(
-                controller: _passwordController,
+                controller: _password,
                 decoration: InputDecoration(
                   labelText: 'Password',
                 ),
@@ -112,10 +107,24 @@ class _RegisterState extends State<Register> {
                 ]),
               ),
               SizedBox(height: 16.0),
+
               ElevatedButton(
-                onPressed: _registerForm,
-                child: Text('Regiter'),
+                onPressed: _SignupForm,
+                child: Text('Create Account'),
               ),
+
+              TextButton(
+                onPressed: () {
+                // navigate to the signup screen
+                Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => Login()));
+                },
+                child: const Text(
+                'Already have an account? Login',
+                style: TextStyle(fontSize: 16),
+                ),
+              ),
+
             ],
           ),
         ),
