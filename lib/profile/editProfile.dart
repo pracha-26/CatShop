@@ -57,7 +57,7 @@ class _EditProfileState extends State<EditProfile> {
             CircleAvatar(
               radius: 50,
               // แสดงรูปผู้ใช้ที่นี่
-              backgroundImage: AssetImage('path/to/profile_image.jpg'),
+              // backgroundImage: AssetImage('path/to/profile_image.jpg'),
             ),
             SizedBox(height: 16.0),
             TextFormField(

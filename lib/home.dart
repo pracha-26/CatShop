@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontcatshop/massage/chatList.dart';
 import 'package:frontcatshop/profile/profile.dart';
 import 'package:frontcatshop/search/searchData.dart';
-import 'package:frontcatshop/shared/service.dart';
+import 'package:frontcatshop/show_products.dart';
 import 'package:frontcatshop/trolley/trolley.dart';
 
 class Home extends StatefulWidget {
@@ -34,26 +34,8 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'ID: ${Local.id}',
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                'Username: ${Local.username}',
-                style: TextStyle(fontSize: 16),
-              ),
-              Text(
-                'Email: ${Local.email}',
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        ),
 
+        body: ProductsList(),
 
 
 //Bar แสดงเมนูด้านล่าง
