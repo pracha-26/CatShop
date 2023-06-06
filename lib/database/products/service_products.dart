@@ -11,25 +11,31 @@ import 'package:http/http.dart' as http;
 import 'package:frontcatshop/shared/service.dart';
 
 class ApiProducts {
-//--------------- ดึงข้อมูล getProducts ---------------//
   Future<List<Products>?> getProducts() async {
     try {
-      var url = Uri.parse(Shared.baseUrl+"/api/products");
-      var response = await http.get(url,
-        headers: {"Authorization": "Bearer ${Shared.accesToken}"});
+      var url = Uri.parse(Shared.baseUrl + "/api/products/?populate=*");
+      var response = await http.get(
+        url,
+        headers: {"Authorization": "Bearer ${Shared.accesToken}"},
+      );
 
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
-        List<Products> _model = productsFromJson(response.body);
-        return _model;
+        Products products = productsFromJson(response.body);
+        log('pName ----> '+products.data[0].attributes.pName);
+        log('pDescription ----> '+products.data[0].attributes.pDescription);
+        log('pDescription ----> '+products.data[0].attributes.pPrice.toString());
+
+        return [products]; // แปลงให้เป็น List โดยใส่เครื่องหมาย [] รอบครอบ
       } else {
         String error = jsonDecode(response.body)['error']['message'];
         throw Exception(error);
       }
     } catch (e) {
       log(e.toString());
+      return null; // เพิ่มการส่งค่า null เมื่อเกิดข้อผิดพลาด
     }
   }
 }

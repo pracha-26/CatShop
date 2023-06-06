@@ -27,12 +27,13 @@ class _LoginState extends State<Login> {
   void _login() async {
     try {
       // ดึงค่าจาก database มาใช้ในการหา email
-      List<Users> users = (await ApiUsers().getUsers())!;
+      List<Users> users = await ApiUsers().getUsers() ?? [];
       late Users? loggedInUser;
       if (users.isNotEmpty) {
         for (var i = 0; i < users.length; i++) {
           if (users[i].email == _email.text) {
-          Local.setLocal(users[i].id, users[i].username, users[i].email);
+            print(users[i].email);
+            Local.setLocal(users[i].id, users[i].username, users[i].email);
             loggedInUser = users[i];
             break;
           }
