@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
       theme: ThemeData(primarySwatch: Colors.red),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Home'),
+          title: const Text('CatShop'),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 20.0),

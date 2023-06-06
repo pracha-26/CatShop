@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
-
-class Product {
-  final String name;
-  final String description;
-  final String imageUrl;
-
-  Product({
-    required this.name,
-    required this.description,
-    required this.imageUrl,
-  });
-}
+import 'package:frontcatshop/database/products/products_db.dart';
+import 'package:frontcatshop/database/products/service_products.dart';
+import 'package:frontcatshop/shared/service.dart';
 
 class ProductSearchPage extends StatefulWidget {
   @override
@@ -18,40 +9,29 @@ class ProductSearchPage extends StatefulWidget {
 }
 
 class _ProductSearchPageState extends State<ProductSearchPage> {
-  List<Product> products = [
-    Product(
-      name: 'Product 1',
-      description: 'Description of Product 1',
-      imageUrl: 'assets/images/cat1.jpg',
-    ),
-    Product(
-      name: 'Product 2',
-      description: 'Description of Product 2',
-      imageUrl: 'assets/images/cat2.jpg',
-    ),
-    Product(
-      name: 'Product 3',
-      description: 'Description of Product 3',
-      imageUrl: 'assets/images/cat3.jpg',
-    ),
-    // Add more products here
-  ];
-
-  List<Product> filteredProducts = [];
-
-  void searchProducts(String query) {
-    setState(() {
-      filteredProducts = products
-          .where((product) =>
-              product.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
-  }
+  late Future<List<Products>?> futureAlbum;
+  List<Products> filteredProducts = [];
 
   @override
   void initState() {
     super.initState();
-    filteredProducts = products;
+    futureAlbum = ApiProducts().getProducts();
+  }
+
+  void searchProducts(String query) {
+    setState(() {
+      filteredProducts = [];
+      futureAlbum.then((products) {
+        for (var product in products!) {
+          for (var data in product.data) {
+            if (data.attributes.pName.toLowerCase().contains(query.toLowerCase())) {
+              filteredProducts.add(product);
+              break;
+            }
+          }
+        }
+      });
+    });
   }
 
   @override
@@ -76,16 +56,16 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
             child: ListView.builder(
               itemCount: filteredProducts.length,
               itemBuilder: (BuildContext context, int index) {
-                Product product = filteredProducts[index];
+                Products product = filteredProducts[index];
                 return ListTile(
-                  leading: Image.asset(
-                    product.imageUrl,
+                  leading: Image.network(
+                    Shared.baseUrl + '${product.data[0].attributes.pImage.data.attributes.url}',
                     width: 60,
                     height: 60,
                     fit: BoxFit.cover,
                   ),
-                  title: Text(product.name),
-                  subtitle: Text(product.description),
+                  title: Text(product.data[0].attributes.pName),
+                  subtitle: Text(product.data[0].attributes.pPrice.toString()),
                   onTap: () {
                     // Handle product selection
                   },
@@ -95,8 +75,6 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
           ),
         ],
       ),
-
-
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Container(
@@ -108,25 +86,23 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
                 icon: Icon(Icons.search_sharp),
                 onPressed: () {
                   Navigator.push(
-                    context,MaterialPageRoute(builder: (context) => ProductSearchPage()),
+                    context,
+                    MaterialPageRoute(builder: (context) => ProductSearchPage()),
                   );
                 },
               ),
               IconButton(
                 icon: Icon(Icons.message),
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
               SizedBox(width: 56.0),
               IconButton(
                 icon: Icon(Icons.shopping_cart),
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
               IconButton(
                 icon: Icon(Icons.person),
-                onPressed: () {
-                },
+                onPressed: () {},
               ),
             ],
           ),
@@ -140,9 +116,6 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
         child: Icon(Icons.home),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
-
     );
   }
 }

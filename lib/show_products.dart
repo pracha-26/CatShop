@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:frontcatshop/database/products/products_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';

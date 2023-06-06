@@ -24,9 +24,9 @@ class ApiProducts {
 
       if (response.statusCode == 200) {
         Products products = productsFromJson(response.body);
-        log('pName ----> '+products.data[0].attributes.pName);
-        log('pDescription ----> '+products.data[0].attributes.pDescription);
-        log('pDescription ----> '+products.data[0].attributes.pPrice.toString());
+        // log('pName ----> '+products.data[0].attributes.pName);
+        // log('pDescription ----> '+products.data[0].attributes.pDescription);
+        // log('pDescription ----> '+products.data[0].attributes.pPrice.toString());
 
         return [products]; // แปลงให้เป็น List โดยใส่เครื่องหมาย [] รอบครอบ
       } else {
