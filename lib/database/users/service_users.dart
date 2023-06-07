@@ -40,12 +40,10 @@ class ApiUsers {
         url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
-      log('${response.statusCode}');
-      log('${response.body}');
       if (response.statusCode == 200) {
         var userData = jsonDecode(response.body);
         Users user = Users.fromJson(userData);
-        log(user.email.toString());
+        // log(user.email);
         return [user];
       } else {
         String error = jsonDecode(response.body)['error']['message'];
@@ -87,7 +85,7 @@ class ApiUsers {
 
 
   //--------------- แก้ไขข้อมูล editUsers ---------------//
-Future<Users?> editUsers(String username, String email) async {
+Future<Users?> editUsers(String username, String phone) async {
   try {
     var url = Uri.parse(Shared.baseUrl + "/api/users/${Local.id}");
     var response = await http.put(url,
@@ -97,7 +95,7 @@ Future<Users?> editUsers(String username, String email) async {
         },
         body: jsonEncode(<String, String>{
           'username': username,
-          'email': email,
+          'phone': phone,
         }),
     );
     if (response.statusCode == 200) {
