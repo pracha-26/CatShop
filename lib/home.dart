@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:frontcatshop/massage/chatList.dart';
 import 'package:frontcatshop/profile/profile.dart';
 import 'package:frontcatshop/search/searchData.dart';
-import 'package:frontcatshop/show_products.dart';
+import 'package:frontcatshop/show_body.dart';
 import 'package:frontcatshop/trolley/trolley.dart';
 
 class Home extends StatefulWidget {
@@ -35,8 +35,7 @@ class _HomeState extends State<Home> {
           ],
         ),
 
-        body: ProductsList(),
-
+        body: ShowBody(),
 
 //Bar แสดงเมนูด้านล่าง
         bottomNavigationBar: BottomAppBar(

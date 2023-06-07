@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+
+//ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/products/products_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';
+
+//shared service
 import 'package:frontcatshop/shared/service.dart';
+
+class cat_Products {
+  final String name;
+  final String description;
+  final int price;
+  final String imageUrl;
+
+  cat_Products({
+    required this.name,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
+  });
+}
 
 class ProductSearchPage extends StatefulWidget {
   @override
@@ -10,7 +28,7 @@ class ProductSearchPage extends StatefulWidget {
 
 class _ProductSearchPageState extends State<ProductSearchPage> {
   late Future<List<Products>?> futureAlbum;
-  List<Products> filteredProducts = [];
+  List<cat_Products> filteredProducts = [];
 
   @override
   void initState() {
@@ -20,13 +38,20 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
 
   void searchProducts(String query) {
     setState(() {
-      filteredProducts = [];
       futureAlbum.then((products) {
+        filteredProducts = []; // ล้างรายการสินค้าที่ผ่านการค้นหาก่อนที่จะเริ่มค้นหาใหม่
         for (var product in products!) {
           for (var data in product.data) {
             if (data.attributes.pName.toLowerCase().contains(query.toLowerCase())) {
-              filteredProducts.add(product);
-              break;
+              filteredProducts.add(
+                cat_Products(
+                  name: data.attributes.pName,
+                  description: data.attributes.pDescription,
+                  price: data.attributes.pPrice,
+                  imageUrl: data.attributes.pImage.data.attributes.url,
+                ),
+              );
+              // break;
             }
           }
         }
@@ -52,29 +77,41 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredProducts.length,
-              itemBuilder: (BuildContext context, int index) {
-                Products product = filteredProducts[index];
-                return ListTile(
-                  leading: Image.network(
-                    Shared.baseUrl + '${product.data[0].attributes.pImage.data.attributes.url}',
-                    width: 60,
-                    height: 60,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text(product.data[0].attributes.pName),
-                  subtitle: Text(product.data[0].attributes.pPrice.toString()),
-                  onTap: () {
-                    // Handle product selection
-                  },
-                );
-              },
+
+Expanded(
+  child: ListView.builder(
+    itemCount: filteredProducts.length,
+    itemBuilder: (context, index) {
+      cat_Products product = filteredProducts[index];
+      return Card(
+        elevation: 2,
+        child: ListTile(
+          leading: Image.network(
+            Shared.baseUrl + product.imageUrl,
+            width: 50,
+            height: 50,
+          ),
+          title: Text(product.name),
+          subtitle: Text(product.description),
+          trailing: Text(
+            '\$${product.price.toStringAsFixed(2)}',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
             ),
           ),
+          onTap: () {
+            // TODO: Handle item tap
+          },
+        ),
+      );
+    },
+  ),
+),
+
         ],
       ),
+
+
       bottomNavigationBar: BottomAppBar(
         shape: CircularNotchedRectangle(),
         child: Container(

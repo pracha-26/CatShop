@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+
+//ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/products/products_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';
+
+//shared service
 import 'package:frontcatshop/shared/service.dart';
-class ProductsList extends StatefulWidget {
- const ProductsList({Key? key}) : super(key: key);
+
+class ShowBody extends StatefulWidget {
+  static const namedRoute = "Show-Body";
+  const ShowBody({Key? key}) : super(key: key);
 
   @override
-  State<ProductsList> createState() => _ProductsListState();
+  State<ShowBody> createState() => _ShowBodyState();
 }
 
-class _ProductsListState extends State<ProductsList> {
+class _ShowBodyState extends State<ShowBody> {
   late Future<List<Products>?> futureAlbum;
 
   @override

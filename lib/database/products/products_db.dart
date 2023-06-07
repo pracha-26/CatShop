@@ -1,3 +1,5 @@
+//เอาค่าที่ได้จากการดึงข้อมูลผ่าน API ไปใส่ในเว็บ quicktype แล้ว genalate มาเป็นไฟล์ Dart
+
 // To parse this JSON data, do
 //
 //     final products = productsFromJson(jsonString);

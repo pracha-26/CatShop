@@ -1,14 +1,13 @@
 //เชื่อต่อ http สำหรับลิ้ง API
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:http/http.dart' as http;
+
+//shared service
+import 'package:frontcatshop/shared/service.dart';
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/users/users_db.dart';
-
-//http ลิ้ง API
-import 'package:frontcatshop/shared/service.dart';
 
 class ApiUsers {
 //--------------- ดึงข้อมูล getUser ---------------//
