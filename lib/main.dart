@@ -23,7 +23,7 @@ class _AppState extends State<App> {
     return MaterialApp(
       title: "Strapi App",
       theme: ThemeData(primarySwatch: Colors.red),
-      home: const Home(),
+      home: const Login(),
       routes: {
         Home.namedRoute: (ctx) => const Home(),
         Login.namedRoute: (ctx) => const Login(),

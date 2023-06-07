@@ -15,6 +15,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final _username = TextEditingController();
   final _email = TextEditingController();
+  final _urlImage = TextEditingController();
   String _error = "";
 
     @override
@@ -23,6 +24,7 @@ class _EditProfileState extends State<EditProfile> {
     // กำหนดค่าเริ่มต้นให้กับ TextEditingController จากข้อมูลที่มีอยู่
     _username.text = Local.username ?? '';
     _email.text = Local.email ?? '';
+    _urlImage.text = Local.urlImage ?? '';
   }
 
   @override
@@ -57,7 +59,7 @@ class _EditProfileState extends State<EditProfile> {
             CircleAvatar(
               radius: 50,
               // แสดงรูปผู้ใช้ที่นี่
-              // backgroundImage: AssetImage('path/to/profile_image.jpg'),
+              backgroundImage: NetworkImage(Shared.baseUrl + '${_urlImage.text}'),
             ),
             SizedBox(height: 16.0),
             TextFormField(

@@ -28,7 +28,7 @@ class _ShowBodyState extends State<ShowBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<List<Products>?>(
-        future: ApiProducts().getProducts(),
+        future: futureAlbum,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(

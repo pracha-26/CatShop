@@ -13,7 +13,7 @@ class ApiUsers {
 //--------------- ดึงข้อมูล getUser ---------------//
   Future<List<Users>?> getUsers() async {
     try {
-      var url = Uri.parse(Shared.baseUrl+"/api/users");
+      var url = Uri.parse(Shared.baseUrl+"/api/users/?populate=*");
       var response = await http.get(url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"});
 
@@ -23,6 +23,30 @@ class ApiUsers {
       if (response.statusCode == 200) {
         List<Users> _model = usersFromJson(response.body);
         return _model;
+      } else {
+        String error = jsonDecode(response.body)['error']['message'];
+        throw Exception(error);
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
+//--------------- ดึงข้อมูล getUsersId ---------------//
+  Future<List<Users>?> getUsersId() async {
+    try {
+      var url = Uri.parse(Shared.baseUrl + "/api/users/${Local.id}?populate=*");
+      var response = await http.get(
+        url,
+        headers: {"Authorization": "Bearer ${Shared.accesToken}"},
+      );
+      log('${response.statusCode}');
+      log('${response.body}');
+      if (response.statusCode == 200) {
+        var userData = jsonDecode(response.body);
+        Users user = Users.fromJson(userData);
+        log(user.email.toString());
+        return [user];
       } else {
         String error = jsonDecode(response.body)['error']['message'];
         throw Exception(error);

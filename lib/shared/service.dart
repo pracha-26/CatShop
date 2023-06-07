@@ -8,10 +8,14 @@ class Local {
   static int? id;
   static String? username;
   static String? email;
+  static String? urlImage;
+  static String? phone;
 
-  static void setLocal(int userId, String userUsername, String userEmail) {
+  static void setLocal(int userId, String userUsername, String userEmail, String userUrlImage, String userPhone) {
     id = userId;
     username = userUsername;
     email = userEmail;
+    urlImage = userUrlImage;
+    phone = userPhone;
   }
 }

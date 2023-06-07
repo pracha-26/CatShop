@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/products/products_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';
+import 'package:frontcatshop/home.dart';
 
 //shared service
 import 'package:frontcatshop/shared/service.dart';
@@ -147,8 +148,10 @@ Expanded(
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.popUntil(context, (route) => route.isFirst);
-          // Handle FloatingActionButton press
+          // Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacement(
+            context,MaterialPageRoute(builder: (context) => Home()),
+          );
         },
         child: Icon(Icons.home),
       ),

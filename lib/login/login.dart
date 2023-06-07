@@ -32,8 +32,10 @@ class _LoginState extends State<Login> {
       if (users.isNotEmpty) {
         for (var i = 0; i < users.length; i++) {
           if (users[i].email == _email.text) {
-            print(users[i].email);
-            Local.setLocal(users[i].id, users[i].username, users[i].email);
+            print(users[i].phone);
+            String? imageUrl = users[i].userImage?.isNotEmpty == true ? users[i].userImage![0].url : null;
+            String? phone = users[i].phone?.isNotEmpty == true ? users[i].phone : null;
+            Local.setLocal(users[i].id, users[i].username, users[i].email, imageUrl!, phone!);
             loggedInUser = users[i];
             break;
           }
