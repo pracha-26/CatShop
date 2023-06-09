@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
-//ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/products/products_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';
-
-//shared service
 import 'package:frontcatshop/shared/service.dart';
+import 'package:frontcatshop/show_product.dart';
 
 class ShowBody extends StatefulWidget {
   static const namedRoute = "Show-Body";
@@ -37,17 +34,27 @@ class _ShowBodyState extends State<ShowBody> {
           } else if (snapshot.hasData) {
             List<Products> products = snapshot.data!;
 
-              return ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  Products product = products[index];
-                  return ListView.builder(
-                    itemCount: product.data.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      var attributes = product.data[i].attributes;
-                      return Card(
+            return ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                Products product = products[index];
+                return ListView.builder(
+                  itemCount: product.data.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, i) {
+                    var attributes = product.data[i].attributes;
+                    var id = product.data[i].id;
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetail(product_id: id),
+                          ),
+                        );
+                      },
+                      child: Card(
                         elevation: 2,
                         child: ListTile(
                           leading: Image.network(
@@ -63,29 +70,13 @@ class _ShowBodyState extends State<ShowBody> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onTap: () {
-                            // TODO: Handle item tap
-                          },
                         ),
-                      );
-                    },
-                  );
-                },
-              );
-
-
-            // return ListView.builder(
-            //   itemCount: products.length,
-            //   itemBuilder: (context, index) {
-            //     Products product = products[index];
-            //     return ListTile(
-            //       title: Text(product.data[index].attributes.pName),
-            //       subtitle: Text('Price: \$${product.data[index].attributes.pDescription}'),
-            //     );
-            //   },
-            // );
-
-
+                      ),
+                    );
+                  },
+                );
+              },
+            );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
@@ -96,4 +87,3 @@ class _ShowBodyState extends State<ShowBody> {
     );
   }
 }
-

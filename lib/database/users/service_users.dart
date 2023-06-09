@@ -40,6 +40,10 @@ class ApiUsers {
         url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
+
+            log('${response.statusCode}');
+      log('${response.body}');
+
       if (response.statusCode == 200) {
         var userData = jsonDecode(response.body);
         Users user = Users.fromJson(userData);
