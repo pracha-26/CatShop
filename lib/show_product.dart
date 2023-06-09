@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontcatshop/database/orders/service_order.dart';
 import 'package:frontcatshop/database/products/productsId_db.dart';
 import 'package:frontcatshop/database/products/service_products.dart';
 import 'package:frontcatshop/shared/service.dart';
@@ -28,13 +29,19 @@ class _ProductDetailState extends State<ProductDetail> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      // ทำอะไรสำหรับหน้าแรกของ BottomNavigationBar
+      // ทำอะไรสำหรับหน้าแรกของ BottomNavigationBar (เพิ่มสินค้าลงในรถเข็น)
     } else if (index == 1) {
-      // ทำอะไรสำหรับหน้าสองของ BottomNavigationBar (เพิ่มสินค้าลงในรถเข็น)
+      // ทำอะไรสำหรับหน้าสองของ BottomNavigationBar 
     } else if (index == 2) {
       // ทำอะไรสำหรับหน้าสามของ BottomNavigationBar
     }
   }
+
+    @override
+  void _AddOrder() async {
+    await ApiOrder().addOrders();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +115,7 @@ class _ProductDetailState extends State<ProductDetail> {
             IconButton(
               icon: Icon(Icons.chat),
               onPressed: () {
-                _onItemTapped(0);
+                _onItemTapped(1);
               },
             ),
             IconButton(
@@ -122,7 +129,7 @@ class _ProductDetailState extends State<ProductDetail> {
       ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //Navigator.popUntil(context, (route) => route.isFirst);
+            _AddOrder();
           },
           child: Icon(Icons.add),
         ),

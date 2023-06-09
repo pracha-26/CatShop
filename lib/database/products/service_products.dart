@@ -1,7 +1,6 @@
 //เชื่อต่อ http สำหรับลิ้ง API
 import 'dart:convert';
 import 'dart:developer';
-import 'package:frontcatshop/database/products/productsId_db.dart';
 import 'package:http/http.dart' as http;
 
 //shared service
@@ -9,6 +8,7 @@ import 'package:frontcatshop/shared/service.dart';
 
 //ดึง database ตัวที่เราจะใช้ _db.dart
 import 'package:frontcatshop/database/products/products_db.dart';
+import 'package:frontcatshop/database/products/productsId_db.dart';
 
 
 class ApiProducts {
