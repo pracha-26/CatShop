@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontcatshop/database/orders/orders_db.dart';
+import 'package:frontcatshop/database/orders/service_order.dart';
 
 class Trolley extends StatefulWidget {
   @override
@@ -6,28 +8,12 @@ class Trolley extends StatefulWidget {
 }
 
 class _TrolleyState extends State<Trolley> {
-  List<String> cartItems = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-  ];
+  late Future<Orders?> futureAlbum;
 
-  void increaseQuantity(int index) {
-    setState(() {
-      // เพิ่มจำนวนสินค้าในรถเข็น
-    });
-  }
-
-  void decreaseQuantity(int index) {
-    setState(() {
-      // ลดจำนวนสินค้าในรถเข็น
-    });
-  }
-
-  void removeItem(int index) {
-    setState(() {
-      // ลบสินค้าออกจากรถเข็น
-    });
+  @override
+  void initState() {
+    super.initState();
+    futureAlbum = ApiOrder().getOrders();
   }
 
   @override

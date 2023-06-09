@@ -45,12 +45,13 @@ class _ShowBodyState extends State<ShowBody> {
                   itemBuilder: (context, i) {
                     var attributes = product.data[i].attributes;
                     var id = product.data[i].id;
+                    var price = product.data[i].attributes.pPrice;
                     return InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetail(product_id: id),
+                            builder: (context) => ProductDetail(product_id: id, product_price: price),
                           ),
                         );
                       },
