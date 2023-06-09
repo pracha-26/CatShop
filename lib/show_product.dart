@@ -21,6 +21,21 @@ class _ProductDetailState extends State<ProductDetail> {
     futureAlbum = ApiProducts().getProductsID(widget.product_id);
   }
 
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      // ทำอะไรสำหรับหน้าแรกของ BottomNavigationBar
+    } else if (index == 1) {
+      // ทำอะไรสำหรับหน้าสองของ BottomNavigationBar (เพิ่มสินค้าลงในรถเข็น)
+    } else if (index == 2) {
+      // ทำอะไรสำหรับหน้าสามของ BottomNavigationBar
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,44 +52,46 @@ class _ProductDetailState extends State<ProductDetail> {
           } else if (snapshot.hasData) {
             ProductsId products = snapshot.data!;
             ProductsId product = products;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Image.network(
-                  Shared.baseUrl +
-                      '${product.data.attributes.pImage.data.attributes.url}',
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        product.data.attributes.pName,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        product.data.attributes.pDescription,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'Price: \$${product.data.attributes.pPrice.toStringAsFixed(2)}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.network(
+                    Shared.baseUrl +
+                        '${product.data.attributes.pImage.data.attributes.url}',
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.data.attributes.pName,
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          product.data.attributes.pDescription,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Price: \$${product.data.attributes.pPrice.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             );
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
@@ -83,6 +100,33 @@ class _ProductDetailState extends State<ProductDetail> {
           }
         },
       ),
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.chat),
+              onPressed: () {
+                _onItemTapped(0);
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {
+                _onItemTapped(2);
+              },
+            ),
+          ],
+        ),
+      ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            //Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          child: Icon(Icons.add),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
