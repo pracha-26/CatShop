@@ -61,6 +61,7 @@ class ApiUsers {
 
 //--------------- สร้างข้อมูล createUses ---------------//
   Future<Users?> addUsers(String username, String email, String password) async {
+    log("addUsers");
     try {
       var url = Uri.parse(Shared.baseUrl+"/api/auth/local/register");
       var response = await http.post(url,
