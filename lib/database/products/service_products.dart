@@ -21,12 +21,12 @@ class ApiProducts {
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
 
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
         Products products = productsFromJson(response.body);
-        log('pName ----> '+products.data[0].attributes.pName);
+        // log('pName ----> '+products.data[0].attributes.pName);
         // log('pDescription ----> '+products.data[0].attributes.pDescription);
         // log('pDescription ----> '+products.data[0].attributes.pPrice.toString());
 
@@ -50,12 +50,12 @@ class ApiProducts {
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
 
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
 ProductsId products = ProductsId.fromJson(jsonDecode(response.body));
-log('pName ----> ' + products.data.attributes.pName);  // แก้ไขให้เป็น p_name
+// log('pName ----> ' + products.data.attributes.pName);  // แก้ไขให้เป็น p_name
 return products;
 
       //   ProductsId products = productsIdFromJson(response.body);

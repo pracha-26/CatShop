@@ -79,35 +79,35 @@ class _ProductSearchPageState extends State<ProductSearchPage> {
             ),
           ),
 
-Expanded(
-  child: ListView.builder(
-    itemCount: filteredProducts.length,
-    itemBuilder: (context, index) {
-      cat_Products product = filteredProducts[index];
-      return Card(
-        elevation: 2,
-        child: ListTile(
-          leading: Image.network(
-            Shared.baseUrl + product.imageUrl,
-            width: 50,
-            height: 50,
-          ),
-          title: Text(product.name),
-          subtitle: Text(product.description),
-          trailing: Text(
-            '\$${product.price.toStringAsFixed(2)}',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredProducts.length,
+              itemBuilder: (context, index) {
+                cat_Products product = filteredProducts[index];
+                return Card(
+                  elevation: 2,
+                  child: ListTile(
+                    leading: Image.network(
+                      Shared.baseUrl + product.imageUrl,
+                      width: 50,
+                      height: 50,
+                    ),
+                    title: Text(product.name),
+                    subtitle: Text(product.description),
+                    trailing: Text(
+                      '\$${product.price.toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    onTap: () {
+                      // TODO: Handle item tap
+                    },
+                  ),
+                );
+              },
             ),
           ),
-          onTap: () {
-            // TODO: Handle item tap
-          },
-        ),
-      );
-    },
-  ),
-),
 
         ],
       ),

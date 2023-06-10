@@ -59,7 +59,7 @@ body: FutureBuilder<List<Users>?>(
             padding: const EdgeInsets.only(top: 16),
             child: CircleAvatar(
               radius: 50,
-              backgroundImage: NetworkImage(Shared.baseUrl + '${users[0].userImage![0].url}'),
+              backgroundImage: NetworkImage(Shared.baseUrl + '${users[0].userImage![0].url}' ?? ''),
             ),
           ),
           SizedBox(height: 16),
