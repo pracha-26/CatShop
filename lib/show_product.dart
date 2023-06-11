@@ -5,9 +5,9 @@ import 'package:frontcatshop/database/products/service_products.dart';
 import 'package:frontcatshop/shared/service.dart';
 
 class ProductDetail extends StatefulWidget {
-  final product_id, product_price;
+  final product_id, product_price, product_url;
 
-  const ProductDetail({Key? key, required this.product_id, required this.product_price}) : super(key: key);
+  const ProductDetail({Key? key, required this.product_id, required this.product_price, required this.product_url}) : super(key: key);
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -39,7 +39,7 @@ class _ProductDetailState extends State<ProductDetail> {
 
     @override
   void _AddOrder() async {
-    await ApiOrder().addOrders(widget.product_id, widget.product_price);
+    await ApiOrder().addOrders(widget.product_id, widget.product_price, widget.product_url);
   }
 
 

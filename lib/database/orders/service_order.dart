@@ -23,9 +23,9 @@ class ApiOrder {
         url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
-      log("get Orders");
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log("get Orders");
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
         Orders orders = Orders.fromJson(jsonDecode(response.body));
@@ -45,7 +45,8 @@ class ApiOrder {
   }
 
 //--------------- สร้างข้อมูล createOrders ---------------//
-  Future<OrdersId?> addOrders(int product_id, int product_price) async {
+  Future<OrdersId?> addOrders(int product_id, int product_price, String product_url) async {
+    log("add Orders");
     DateTime now = DateTime.now();
     String formattedDate = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now.toUtc());
     try {
@@ -58,7 +59,7 @@ class ApiOrder {
         },
         body: jsonEncode(<String, dynamic>{
           "data": {
-            "total_amount": 0,
+            "total_amount": product_price,
             "order_date": formattedDate,
             "users_permissions_user": Local.id
           }
@@ -70,7 +71,7 @@ class ApiOrder {
         OrdersId orders = OrdersId.fromJson(json.decode(response.body));
         int orderId = orders.data.id;
         // log(orders.data.id.toString());
-        await ApiOrderItems().addOrderItems(orderId, product_id, product_price);
+        await ApiOrderItems().addOrderItems(orderId, product_id, product_price, product_url);
         return orders;
       } else {
         String error = jsonDecode(response.body)['error']['message'];
@@ -94,9 +95,9 @@ class ApiOrderItems {
         url,
         headers: {"Authorization": "Bearer ${Shared.accesToken}"},
       );
-      log("get OrderItems");
-      log('${response.statusCode}');
-      log('${response.body}');
+      // log("get OrderItems");
+      // log('${response.statusCode}');
+      // log('${response.body}');
 
       if (response.statusCode == 200) {
         OrderItems orderItems = OrderItems.fromJson(jsonDecode(response.body));
@@ -116,9 +117,8 @@ class ApiOrderItems {
 
 
 //--------------- สร้างข้อมูล createOrderItems ---------------//
-  Future<void> addOrderItems(int orderId, int product_id, int product_price) async {
-    // log("OrderItems --- ");
-    // log(orderId.toString());
+  Future<void> addOrderItems(int orderId, int product_id, int product_price, String product_url) async {
+log("add OrderItems");
     try {
       var url = Uri.parse(Shared.baseUrl + "/api/order-items");
       var response = await http.post(
@@ -130,9 +130,10 @@ class ApiOrderItems {
         body: jsonEncode(<String, dynamic>{
           "data": {
             "order": orderId,
-            "product": product_id, // Provide the product_id
-            "quantity": 1, // Provide the quantity
-            "price": product_price // Provide the price
+            "product": product_id,
+            "quantity": 1,
+            "price": product_price,
+            "url_image": product_url
           }
         }),    
       );

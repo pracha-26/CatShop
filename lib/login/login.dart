@@ -24,37 +24,36 @@ class _LoginState extends State<Login> {
 
   @override
   // functions เมื่อกด login 
-  void _login() async {
-    try {
-      // ดึงค่าจาก database มาใช้ในการหา email
-      List<Users> users = await ApiUsers().getUsers() ?? [];
-      late Users? loggedInUser;
-      if (users.isNotEmpty) {
-        for (var i = 0; i < users.length; i++) {
-          if (users[i].email == _email.text) {
-            print(users[i].phone);
-            // String? imageUrl = users[i].userImage?.isNotEmpty == true ? users[i].userImage![0].url : null;
-            // String? phone = users[i].phone?.isNotEmpty == true ? users[i].phone : null;
-            Local.setLocal(users[i].id, users[i].username, users[i].email);
-            loggedInUser = users[i];
-            break;
-          }
+void _login() async {
+  try {
+    List<Users> users = await ApiUsers().getUsers() ?? [];
+    Users? loggedInUser;
+    if (users.isNotEmpty) {
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].email == _email.text) {
+          print(users[i].phone);
+          Local.setLocal(users[i].id, users[i].username, users[i].email);
+          loggedInUser = users[i];
+          break;
         }
       }
-      if (loggedInUser == null) {
-        setState(() {
-          _error = "Your account does not exist.";
-        });
-      } else {
-        // navigate to the dashboard screen.
-        Navigator.pushNamed(context, Home.namedRoute);
-      }
-    } on Exception catch (e) {
-      setState(() {
-        _error = e.toString().substring(11);
-      });
     }
+    if (loggedInUser == null) {
+      _email.clear();
+      _password.clear();
+      setState(() {
+        _error = "Your account does not exist.";
+      });
+    } else {
+      Navigator.pushNamed(context, Home.namedRoute);
+    }
+  } on Exception catch (e) {
+    setState(() {
+      _error = e.toString().substring(11);
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

@@ -75,12 +75,13 @@ class _ShowBodyState extends State<ShowBody> {
                     var attributes = product.data[i].attributes;
                     var id = product.data[i].id;
                     var price = product.data[i].attributes.pPrice;
+                    var url_image = product.data[i].attributes.pImage.data.attributes.url;
                     return InkWell(   //InkWell เป็นวิดเจ็ตใน Flutter ที่ใช้สร้างพื้นที่ที่สามารถรับการแตะ (tap) จากผู้ใช้งานได้
                       onTap: () {   //onTap เป็นคุณสมบัติของ InkWell ที่ใช้ในการกำหนดการดำเนินการที่ต้องการเมื่อผู้ใช้แตะ (tap) ที่พื้นที่ที่ครอบ InkWell ไว้
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetail(product_id: id, product_price: price),
+                            builder: (context) => ProductDetail(product_id: id, product_price: price, product_url: url_image),
                           ),
                         );
                       },

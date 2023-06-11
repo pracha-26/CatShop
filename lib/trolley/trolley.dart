@@ -54,7 +54,7 @@ class _TrolleyState extends State<Trolley> {
                       name: data.attributes.product?.data?.attributes?.pName ?? '',
                       description: data.attributes.product?.data?.attributes?.pDescription ?? '',
                       price: data.attributes.price ?? 0,
-                      imageUrl: '',
+                      imageUrl: data.attributes.urlImage ?? '',
                       quantity: data.attributes.quantity ?? 0,
                     );
                     if (!isAdded) {
@@ -100,7 +100,8 @@ class _TrolleyState extends State<Trolley> {
                   elevation: 2,
                   child: ListTile(
                     leading: Image.network(
-                      'https://i.guim.co.uk/img/media/26392d05302e02f7bf4eb143bb84c8097d09144b/446_167_3683_2210/master/3683.jpg?width=1200&quality=85&auto=format&fit=max&s=a52bbe202f57ac0f5ff7f47166906403',
+                      Shared.baseUrl +
+                        '${product.imageUrl}',
                       width: 100,
                       height: 100,
                     ),

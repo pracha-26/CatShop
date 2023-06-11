@@ -54,6 +54,7 @@ class DatumAttributes {
     DateTime createdAt;
     DateTime updatedAt;
     DateTime publishedAt;
+    String? urlImage;
     Order order;
     Product product;
 
@@ -63,6 +64,7 @@ class DatumAttributes {
         required this.createdAt,
         required this.updatedAt,
         required this.publishedAt,
+        this.urlImage,
         required this.order,
         required this.product,
     });
@@ -73,6 +75,7 @@ class DatumAttributes {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         publishedAt: DateTime.parse(json["publishedAt"]),
+        urlImage: json["url_image"],
         order: Order.fromJson(json["order"]),
         product: Product.fromJson(json["product"]),
     );
@@ -83,24 +86,25 @@ class DatumAttributes {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "publishedAt": publishedAt.toIso8601String(),
+        "url_image": urlImage,
         "order": order.toJson(),
         "product": product.toJson(),
     };
 }
 
 class Order {
-    OrderData? data;
+    OrderData data;
 
     Order({
-        this.data,
+        required this.data,
     });
 
     factory Order.fromJson(Map<String, dynamic> json) => Order(
-        data: json["data"] == null ? null : OrderData.fromJson(json["data"]),
+        data: OrderData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
+        "data": data.toJson(),
     };
 }
 

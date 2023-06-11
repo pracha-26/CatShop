@@ -89,18 +89,18 @@ class DatumAttributes {
 }
 
 class OrderItem {
-    OrderItemData? data;
+    OrderItemData data;
 
     OrderItem({
-        this.data,
+        required this.data,
     });
 
     factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
-        data: json["data"] == null ? null : OrderItemData.fromJson(json["data"]),
+        data: OrderItemData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
+        "data": data.toJson(),
     };
 }
 
@@ -130,6 +130,7 @@ class PurpleAttributes {
     DateTime createdAt;
     DateTime updatedAt;
     DateTime publishedAt;
+    String? urlImage;
 
     PurpleAttributes({
         required this.quantity,
@@ -137,6 +138,7 @@ class PurpleAttributes {
         required this.createdAt,
         required this.updatedAt,
         required this.publishedAt,
+        this.urlImage,
     });
 
     factory PurpleAttributes.fromJson(Map<String, dynamic> json) => PurpleAttributes(
@@ -145,6 +147,7 @@ class PurpleAttributes {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         publishedAt: DateTime.parse(json["publishedAt"]),
+        urlImage: json["url_image"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -153,22 +156,23 @@ class PurpleAttributes {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "publishedAt": publishedAt.toIso8601String(),
+        "url_image": urlImage,
     };
 }
 
 class UsersPermissionsUser {
-    UsersPermissionsUserData? data;
+    UsersPermissionsUserData data;
 
     UsersPermissionsUser({
-        this.data,
+        required this.data,
     });
 
     factory UsersPermissionsUser.fromJson(Map<String, dynamic> json) => UsersPermissionsUser(
-        data: json["data"] == null ? null : UsersPermissionsUserData.fromJson(json["data"]),
+        data: UsersPermissionsUserData.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
-        "data": data?.toJson(),
+        "data": data.toJson(),
     };
 }
 
